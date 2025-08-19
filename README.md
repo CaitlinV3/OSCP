@@ -1591,6 +1591,9 @@ cat /etc/fstab #Listing mounted drives
 lsblk #Listing all available drives
 lsmod #Listing loaded drivers
 grep -rnw . -e 'word' # find word in files
+find / -iname 'word' 2>/dev/null # find locations where a word is mentioned
+grep -Ri 'password' /usr/share/openfire # look for passwords in previously found directories
+
 
 watch -n 1 "ps -aux | grep pass" #Checking processes for credentials
 sudo tcpdump -i lo -A | grep "pass" #Password sniffing using tcpdump
