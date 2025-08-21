@@ -718,7 +718,7 @@ nc -v 192.168.2.142 21
 ```
 ## SSH enumeration
 
-```powershell
+```
 #Login
 ssh uname@IP 
 
@@ -752,14 +752,14 @@ nmap -p445 --script="name" $IP
 #In windows we can view like this
 net view \\<computername/IP> /all
 
-#crackmapexec
-crackmapexec smb <IP/range>  
-crackmapexec smb 192.168.1.100 -u username -p password
-crackmapexec smb 192.168.1.100 -u username -p password --shares #lists available shares
-crackmapexec smb 192.168.1.100 -u username -p password --users #lists users
-crackmapexec smb 192.168.1.100 -u username -p password --all #all information
-crackmapexec smb 192.168.1.100 -u username -p password -p 445 --shares #specific port
-crackmapexec smb 192.168.1.100 -u username -p password -d mydomain --shares #specific domain
+#nxc
+nxc smb <IP/range>  
+nxc smb 192.168.1.100 -u username -p password
+nxc smb 192.168.1.100 -u username -p password --shares #lists available shares
+nxc smb 192.168.1.100 -u username -p password --users #lists users
+nxc smb 192.168.1.100 -u username -p password --all #all information
+nxc smb 192.168.1.100 -u username -p password -p 445 --shares #specific port
+nxc smb 192.168.1.100 -u username -p password -d mydomain --shares #specific domain
 #Inplace of username and password, we can include usernames.txt and passwords.txt for password-spraying or bruteforcing.
 
 # Smbclient
@@ -875,13 +875,13 @@ http://10.10.67.245/retro/wp-content/themes/90s-retro/404.php
 
 ### Drupal
 
-```bash
+```
 droopescan scan drupal -u http://site
 ```
 
 ### Joomla
 
-```bash
+```
 droopescan scan joomla --url http://site
 sudo python3 joomla-brute.py -u http://site/ -w passwords.txt -usr username #https://github.com/ajnik/joomla-bruteforce 
 ```
@@ -890,7 +890,7 @@ sudo python3 joomla-brute.py -u http://site/ -w passwords.txt -usr username #htt
 
 - Better use `Seclists` wordlists for better enumeration. [https://github.com/danielmiessler/SecLists/tree/master/Discovery/DNS](https://github.com/danielmiessler/SecLists/tree/master/Discovery/DNS)
 
-```powershell
+```
 host www.megacorpone.com
 host -t mx megacorpone.com
 host -t txt megacorpone.com
@@ -912,7 +912,7 @@ nslookup -type=TXT info.megacorptwo.com 192.168.50.151 #We are querying the info
 
 ## SMTP enumeration
 
-```powershell
+```
 nc -nv <IP> 25 #Version Detection
 smtp-user-enum -M VRFY -U username.txt -t <IP> # -M means mode; it can be RCPT, VRFY, EXPN
 
@@ -922,7 +922,7 @@ sudo swaks -t daniela@beyond.com -t marcus@beyond.com --from john@beyond.com --a
 
 ## LDAP Enumeration
 
-```powershell
+```
 ldapsearch -v -x -b "DC=hutch,DC=offsec" -H "ldap://192.168.175.122" "(objectclass=*)"
 ldapsearch -x -H ldap://<IP>:<port> # try on both ldap and ldaps, this is first command to run if you dont have any valid credentials.
 
@@ -956,14 +956,14 @@ python3 windapsearch.py --dc-ip <IP address> -u <username> -p <password> --privi
 
 ## NFS Enumeration
 
-```powershell
+```
 nmap -sV --script=nfs-showmount <IP>
 showmount -e <IP>
 ```
 
 ## SNMP Enumeration
 
-```powershell
+```
 #Nmap UDP scan
 sudo nmap <IP> -A -T4 -p- -sU -v -oN nmap-udpscan.txt
 
@@ -987,7 +987,7 @@ snmpwalk -c public -v1 <IP> 1.3.6.1.2.1.6.13.1.3 #Opened TCP Ports
 
 ## RPC Enumeration
 
-```powershell
+```
 rpcclient -U=user $IP
 rpcclient -U="" $IP #Anonymous login
 ##Commands within in RPCclient
@@ -1008,6 +1008,7 @@ netshareenumall
 lsaenumsid #SID of all users
 ```
 ## SQL
+```
 # Connecting to the MySQL server.
 mysql -u julio -pPassword123 -h 10.129.20.13
 
@@ -1079,7 +1080,7 @@ sqlcmd> SELECT srvname, isremote FROM sysservers
 
 # Identify the user and its privileges used for the remote connection in MSSQL.
 sqlcmd> EXECUTE('select @@servername, @@version, system_user, is_srvrolemember(''sysadmin'')') AT [10.0.0.12\SQLEXPRESS]
-
+```
 
 
 # Web Attacks
