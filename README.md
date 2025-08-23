@@ -768,6 +768,7 @@ smbclient -N -L \\\\{TARGET_IP}\\
 smbclient //server/share
 smbclient //server/share -U <username>
 smbclient //server/share -U domain/username
+smbclient \\\\$IP\\'Password Audit' -U resourced\\V.Ventz -c 'recurse;ls' # to show all files in the directories
 
 #SMBmap
 smbmap -H <target_ip>
@@ -923,6 +924,7 @@ sudo swaks -t daniela@beyond.com -t marcus@beyond.com --from john@beyond.com --a
 ## LDAP Enumeration
 
 ```
+ldapsearch -x -H "ldap://192.168.212.175" -s base
 ldapsearch -v -x -b "DC=hutch,DC=offsec" -H "ldap://192.168.175.122" "(objectclass=*)"
 ldapsearch -x -H ldap://<IP>:<port> # try on both ldap and ldaps, this is first command to run if you dont have any valid credentials.
 
