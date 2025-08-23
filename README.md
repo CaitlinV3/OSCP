@@ -747,7 +747,8 @@ sudo nbtscan -r 192.168.50.0/24
 
 #NSE scripts can be used
 locate .nse | grep smb
-nmap -p445 --script="name" $IP 
+nmap -p445 --script="name" $IP
+nmap --script smb-vuln* -p 139,445 -oN smb-vuln-scan <IP>
 
 #In windows we can view like this
 net view \\<computername/IP> /all
